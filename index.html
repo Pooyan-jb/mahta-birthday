@@ -17,7 +17,7 @@
             margin: 0;
             min-height: 100vh;
             background: #000;
-            color: #39263e;
+            color: #f8edf9;
             font-family: 'Vazirmatn', Tahoma, sans-serif;
             line-height: 2;
         }
@@ -129,20 +129,22 @@
         .question-card {
             width: 100%;
             max-width: 470px;
-            background: white;
+            background: transparent;
             padding: 36px 24px;
             text-align: center;
             border-radius: 28px;
-            box-shadow: 0 15px 45px #0008;
+            box-shadow: none;
+            color: #f8edf9;
         }
 
         .question-card h1 {
             font-size: 28px;
             margin: 10px 0;
+            color: #ffc2e5;
         }
 
         .question-card p {
-            color: #766479;
+            color: #f8edf9;
         }
 
         #age-form,
@@ -157,9 +159,16 @@
             width: 100%;
             padding: 13px;
             text-align: center;
-            border: 2px solid #e9d9ed;
+            border: 2px solid rgba(255, 255, 255, .45);
             border-radius: 14px;
             outline: none;
+            background: rgba(0, 0, 0, .25);
+            color: white;
+        }
+
+        #age-input::placeholder,
+        #password-input::placeholder {
+            color: #decde2;
         }
 
         .question-photo {
@@ -228,9 +237,10 @@
         .see-more summary {
             display: inline-block;
             padding: 10px 28px;
-            background: white;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .45);
             border-radius: 30px;
-            color: #7852ab;
+            color: #ffe0f2;
             font-weight: bold;
             cursor: pointer;
             list-style: none;
@@ -245,29 +255,37 @@
             padding: 25px;
             border-radius: 22px;
             text-align: right;
-            background: white;
+            background: transparent;
+            box-shadow: none;
+            color: #f8edf9;
             animation: appear .4s ease;
         }
 
         .more-content p {
             font-size: 18px;
             line-height: 2.4;
+            color: #f8edf9;
         }
 
-        /* کارت‌های سایت */
+        /* کارت‌های سایت بدون پس‌زمینه سفید */
 
         .panel {
             max-width: 850px;
             margin: 28px auto;
             padding: 30px;
-            background: white;
+            background: transparent;
             text-align: center;
             border-radius: 25px;
-            box-shadow: 0 10px 35px #0004;
+            box-shadow: none;
+            color: #f8edf9;
         }
 
         .panel h2 {
-            color: #a5447d;
+            color: #ffc2e5;
+        }
+
+        .panel p {
+            color: #f8edf9;
         }
 
         .letter p {
@@ -316,7 +334,7 @@
         }
 
         .error-message {
-            color: #b42346;
+            color: #ff9fb9 !important;
             font-weight: bold;
         }
 
@@ -326,7 +344,7 @@
 
         .secret-text p {
             font-size: clamp(22px, 4vw, 31px);
-            color: #8c3a7e;
+            color: #ffc2e5;
             font-weight: 800;
         }
 
@@ -568,15 +586,13 @@
     </section>
 
 
-    <!-- بخش جدید: متن اصلی رمزدار -->
+    <!-- بخش متن اصلی رمزدار -->
 
     <section
             class="panel secret-section"
             id="secret-section">
 
         <h2>متن اصلی تولد</h2>
-
-        <!-- قسمت وارد کردن رمز -->
 
         <div id="password-area">
 
@@ -595,7 +611,7 @@
                 >
 
                 <button type="submit">
-                     باز کردن متن اصلی وارد کردن کلمه کافیه انگلیسی یا فارسی
+                    باز کردن متن اصلی وارد کردن کلمه کافیه انگلیسی یا فارسی
                     ((مگه ... ؟))
                 </button>
 
@@ -640,7 +656,6 @@
             </p>
 
         </div>
-
 
         <!-- متن اصلی که با رمز باز می‌شود -->
 
