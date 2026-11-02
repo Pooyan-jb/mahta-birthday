@@ -3,407 +3,836 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>تولد مهتا</title>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
 
-        * { box-sizing: border-box; }
+        :root {
+            --pink:#ff4da6;
+            --purple:#a15cff;
+            --blue:#61cfff;
+        }
 
-        html { scroll-behavior: smooth; }
+        * { box-sizing:border-box; }
+
+        html { scroll-behavior:smooth; }
 
         body {
-            margin: 0;
-            min-height: 100vh;
-            background: #000;
-            color: #f8edf9;
-            font-family: 'Vazirmatn', Tahoma, sans-serif;
-            line-height: 2;
+            margin:0;
+            background:#030305;
+            color:#f9f5ff;
+            font-family:Vazirmatn,Tahoma,sans-serif;
+            overflow-x:hidden;
         }
 
-        .hidden { display: none !important; }
+        body::before {
+            content:"";
+            position:fixed;
+            inset:-30%;
+            z-index:-1;
+            pointer-events:none;
+            background:
+                    radial-gradient(circle at 20% 30%,#9a26ff28,transparent 32%),
+                    radial-gradient(circle at 80% 70%,#ff319420,transparent 32%);
+            animation:ambient 12s infinite alternate ease-in-out;
+        }
 
-        button, input { font: inherit; }
+        @keyframes ambient {
+            to { transform:translate(5%,4%) rotate(8deg); }
+        }
+
+        .hidden { display:none!important; }
+
+        button,input { font:inherit; }
 
         button {
-            cursor: pointer;
-            border: 0;
-            border-radius: 15px;
-            padding: 13px 26px;
-            color: white;
-            font-weight: bold;
-            background: linear-gradient(120deg, #ed6199, #8b59bf);
-            transition: transform .25s, box-shadow .25s;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 22px #8b59bf40;
+            cursor:pointer;
+            border:0;
+            color:white;
         }
 
         button:focus-visible,
         input:focus-visible,
         summary:focus-visible {
-            outline: 3px solid #9252d6;
-            outline-offset: 3px;
+            outline:2px solid var(--blue);
+            outline-offset:4px;
+        }
+
+        .btn {
+            padding:15px 29px;
+            border-radius:50px;
+            background:linear-gradient(120deg,#e52d8c,#7333dc);
+            box-shadow:0 12px 45px #db3daa35;
+            transition:transform .3s,box-shadow .3s;
+        }
+
+        .btn:hover {
+            transform:translateY(-4px) scale(1.035);
+            box-shadow:0 12px 60px #db3daa70;
         }
 
         .secondary {
-            color: #39263e;
-            background: #ece4f4;
+            background:#ffffff15;
+            border:1px solid #ffffff35;
+            box-shadow:none;
         }
 
-        /* پس‌زمینه مشکی با نورهای نئونی */
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-
-            background:
-                    radial-gradient(
-                            circle at 20% 25%,
-                            rgba(165, 0, 255, .65),
-                            transparent 55%
-                    ),
-                    radial-gradient(
-                            circle at 85% 75%,
-                            rgba(0, 100, 255, .5),
-                            transparent 50%
-                    );
-
-            opacity: 0;
-            animation: neonGlow 12s infinite ease-in-out;
+        input {
+            display:block;
+            background:#ffffff0e;
+            color:white;
+            border:1px solid #ffffff40;
+            border-radius:15px;
+            padding:15px;
+            text-align:center;
+            width:min(100%,340px);
+            margin:20px auto;
         }
 
-        @keyframes neonGlow {
-            0% {
-                opacity: 0;
-                filter: hue-rotate(0deg);
-            }
+        .gradient {
+            background:linear-gradient(110deg,#ff7cbd,#b181ff,#7cdaff);
+            color:transparent;
+            background-clip:text;
+            -webkit-background-clip:text;
+        }
 
-            12% {
-                opacity: .9;
-                filter: hue-rotate(0deg);
-            }
+        .glass {
+            padding:clamp(24px,5vw,55px);
+            border:1px solid #ffffff25;
+            background:linear-gradient(135deg,#ffffff13,#ffffff05);
+            border-radius:32px;
+            backdrop-filter:blur(18px);
+            box-shadow:0 20px 90px #0008;
+        }
 
-            25%, 40% {
-                opacity: 0;
-            }
+        #progress {
+            position:fixed;
+            left:0;
+            top:0;
+            width:0;
+            height:3px;
+            z-index:100;
+            background:linear-gradient(90deg,var(--blue),var(--pink));
+        }
 
-            53% {
-                opacity: .85;
-                filter: hue-rotate(130deg);
-            }
+        #confetti {
+            position:fixed;
+            inset:0;
+            overflow:hidden;
+            pointer-events:none;
+            z-index:150;
+        }
 
-            65%, 77% {
-                opacity: 0;
-            }
+        .piece {
+            position:absolute;
+            top:-30px;
+            width:9px;
+            height:16px;
+            animation:fall 3.6s linear forwards;
+        }
 
-            88% {
-                opacity: .95;
-                filter: hue-rotate(260deg);
-            }
-
-            100% {
-                opacity: 0;
+        @keyframes fall {
+            to {
+                transform:translateY(110vh) rotate(720deg);
+                opacity:0;
             }
         }
 
-        /* مراحل ورود */
+        /* AGE ENTRY */
 
         .intro-screen {
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            min-height:100vh;
+            min-height:100svh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:24px;
+            text-align:center;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .intro-screen::before {
+            content:"25";
+            position:absolute;
+            font-size:clamp(200px,50vw,650px);
+            font-weight:900;
+            opacity:.035;
+            line-height:1;
+            pointer-events:none;
         }
 
         .question-card {
-            width: 100%;
-            max-width: 470px;
-            background: transparent;
-            padding: 36px 24px;
-            text-align: center;
-            border-radius: 28px;
-            box-shadow: none;
-            color: #f8edf9;
+            width:min(100%,600px);
+            position:relative;
+            z-index:2;
         }
 
-        .question-card h1 {
-            font-size: 28px;
-            margin: 10px 0;
-            color: #ffc2e5;
+        .step {
+            animation:stepIn .65s cubic-bezier(.2,.7,.2,1) both;
         }
 
-        .question-card p {
-            color: #f8edf9;
+        @keyframes stepIn {
+            from {
+                opacity:0;
+                transform:translateY(35px) scale(.94);
+                filter:blur(10px);
+            }
+            to {
+                opacity:1;
+                transform:none;
+                filter:blur(0);
+            }
         }
 
-        #age-form,
-        #password-form {
-            display: grid;
-            gap: 14px;
-            margin-top: 20px;
+        .step h1 {
+            font-size:clamp(29px,6vw,54px);
+            line-height:1.65;
+            margin:0 0 15px;
+            font-weight:900;
         }
 
-        #age-input,
-        #password-input {
-            width: 100%;
-            padding: 13px;
-            text-align: center;
-            border: 2px solid rgba(255, 255, 255, .45);
-            border-radius: 14px;
-            outline: none;
-            background: rgba(0, 0, 0, .25);
-            color: white;
+        .step p {
+            color:#c7bbd2;
+            line-height:2.2;
         }
 
-        #age-input::placeholder,
-        #password-input::placeholder {
-            color: #decde2;
-        }
-
-        .question-photo {
-            display: block;
-            width: 100%;
-            max-width: 350px;
-            max-height: 300px;
-            object-fit: contain;
-            border-radius: 18px;
-            margin: 15px auto;
+        .step-photo {
+            display:block;
+            max-width:100%;
+            max-height:330px;
+            object-fit:contain;
+            margin:20px auto;
+            border-radius:20px;
         }
 
         .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            flex-wrap: wrap;
-            margin-top: 24px;
+            display:flex;
+            gap:15px;
+            align-items:center;
+            justify-content:center;
+            flex-wrap:wrap;
         }
 
+        .buttons .btn { min-width:110px; }
+
         .emoji-gift {
-            display: block;
-            margin: 8px auto;
-            padding: 8px;
-            font-size: 84px;
-            line-height: 1.4;
-            background: transparent;
-            box-shadow: none;
+            display:block;
+            background:none;
+            font-size:100px;
+            margin:20px auto;
+            transition:transform .4s;
+            filter:drop-shadow(0 15px 45px #ff3c9855);
+            animation:float 3s infinite ease-in-out;
         }
 
         .emoji-gift:hover {
-            transform: scale(1.18) rotate(8deg);
-            box-shadow: none;
+            transform:scale(1.15) rotate(-7deg);
         }
 
-        /* صفحه اصلی */
-
-        .main-site {
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            padding: 0 18px 40px;
+        @keyframes float {
+            50% { translate:0 -15px; }
         }
 
-        .hero {
-            max-width: 850px;
-            margin: auto;
-            text-align: center;
-            padding: 85px 10px 45px;
+        /* GALAXY INTRO */
+
+        #galaxy-intro {
+            position:fixed;
+            inset:0;
+            z-index:300;
+            background:#000;
+            overflow:hidden;
+            opacity:0;
+            visibility:hidden;
+            pointer-events:none;
         }
 
-        .hero-top {
-            font-size: 20px;
-            color: #ff8cc5;
-            font-weight: bold;
+        #galaxy-intro.active {
+            opacity:1;
+            visibility:visible;
+        }
+
+        #galaxy-intro.fade-out {
+            opacity:0;
+            transition:opacity .9s ease;
+        }
+
+        #galaxy-canvas {
+            position:absolute;
+            inset:0;
+            width:100%;
+            height:100%;
+            display:block;
+        }
+
+        .galaxy-core {
+            position:absolute;
+            top:50%;
+            left:50%;
+            width:250px;
+            height:250px;
+            transform:translate(-50%,-50%) scale(.1);
+            border-radius:50%;
+            background:radial-gradient(
+                    circle,
+                    #ffffffaa 0%,
+                    #86bfff88 8%,
+                    #9c5cff44 25%,
+                    transparent 68%
+            );
+            filter:blur(18px);
+            opacity:0;
+            pointer-events:none;
+        }
+
+        #galaxy-intro.active .galaxy-core {
+            animation:coreZoom 3.5s ease-in forwards;
+        }
+
+        @keyframes coreZoom {
+            0% {
+                opacity:0;
+                transform:translate(-50%,-50%) scale(.1);
+            }
+            45% { opacity:.6; }
+            80% { opacity:.9; }
+            100% {
+                opacity:1;
+                transform:translate(-50%,-50%) scale(13);
+            }
+        }
+
+        .galaxy-flash {
+            position:absolute;
+            inset:0;
+            background:white;
+            opacity:0;
+            pointer-events:none;
+        }
+
+        #galaxy-intro.active .galaxy-flash {
+            animation:flash 3.6s forwards;
+        }
+
+        @keyframes flash {
+            0%,84% { opacity:0; }
+            94% { opacity:.8; }
+            100% { opacity:0; }
+        }
+
+        /* MAIN WEBSITE */
+
+        #main-site {
+            animation:mainEnter 1.1s both;
+        }
+
+        @keyframes mainEnter {
+            from {
+                opacity:0;
+                transform:scale(1.045);
+                filter:blur(18px);
+            }
+            to {
+                opacity:1;
+                transform:none;
+                filter:blur(0);
+            }
+        }
+
+        .site-section {
+            min-height:100vh;
+            min-height:100svh;
+            width:100%;
+            position:relative;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-direction:column;
+            padding:110px 6vw 85px;
+            overflow:hidden;
+            text-align:center;
+        }
+
+        .reveal {
+            opacity:0;
+            transform:translateY(70px) scale(.96);
+            filter:blur(12px);
+            transition:
+                    opacity 1.15s cubic-bezier(.2,.7,.2,1),
+                    transform 1.15s cubic-bezier(.2,.7,.2,1),
+                    filter 1.15s;
+        }
+
+        .reveal.visible {
+            opacity:1;
+            transform:none;
+            filter:blur(0);
         }
 
         .hero h1 {
-            font-size: clamp(42px, 8vw, 85px);
-            color: #ffb5df;
-            margin: 10px 0 30px;
+            font-size:clamp(60px,13vw,170px);
+            line-height:1.35;
+            font-weight:900;
+            margin:10px 0 30px;
+            letter-spacing:-3px;
+            background:linear-gradient(120deg,#fff,#ff91c3,#aa75ff,#fff);
+            background-size:250% auto;
+            color:transparent;
+            background-clip:text;
+            -webkit-background-clip:text;
+            animation:shine 7s linear infinite;
         }
 
-        /* See more */
+        @keyframes shine {
+            to { background-position:250% center; }
+        }
+
+        .hero-top {
+            color:#e6b2d3;
+            font-size:clamp(17px,2.5vw,25px);
+        }
+
+        .see-more {
+            margin-top:25px;
+            width:min(100%,720px);
+        }
 
         .see-more summary {
-            display: inline-block;
-            padding: 10px 28px;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, .45);
-            border-radius: 30px;
-            color: #ffe0f2;
-            font-weight: bold;
-            cursor: pointer;
-            list-style: none;
+            display:inline-block;
+            list-style:none;
+            cursor:pointer;
+            padding:13px 29px;
+            border:1px solid #ffffff40;
+            border-radius:50px;
+            background:#ffffff12;
+            transition:.3s;
         }
 
         .see-more summary::-webkit-details-marker {
-            display: none;
+            display:none;
+        }
+
+        .see-more summary:hover {
+            background:#ffffff24;
         }
 
         .more-content {
-            margin-top: 25px;
-            padding: 25px;
-            border-radius: 22px;
-            text-align: right;
-            background: transparent;
-            box-shadow: none;
-            color: #f8edf9;
-            animation: appear .4s ease;
+            margin-top:25px;
+            padding:26px;
+            border-radius:25px;
+            background:#ffffff0d;
+            border:1px solid #ffffff1f;
+            animation:stepIn .6s both;
         }
 
         .more-content p {
-            font-size: 18px;
-            line-height: 2.4;
-            color: #f8edf9;
+            line-height:2.5;
+            color:#d6cadf;
+            font-size:clamp(16px,2vw,20px);
         }
 
-        /* کارت‌های سایت بدون پس‌زمینه سفید */
-
-        .panel {
-            max-width: 850px;
-            margin: 28px auto;
-            padding: 30px;
-            background: transparent;
-            text-align: center;
-            border-radius: 25px;
-            box-shadow: none;
-            color: #f8edf9;
+        .section-title {
+            font-size:clamp(35px,7vw,90px);
+            line-height:1.4;
+            margin:0 0 30px;
+            font-weight:900;
         }
 
-        .panel h2 {
-            color: #ffc2e5;
+        .content {
+            width:min(100%,950px);
         }
 
-        .panel p {
-            color: #f8edf9;
+        .content p {
+            font-size:clamp(17px,2.3vw,24px);
+            line-height:2.6;
+            margin:25px auto;
+            max-width:850px;
         }
 
-        .letter p {
-            font-size: 18px;
-            line-height: 2.5;
+        .video-frame {
+            width:min(100%,950px);
+            border-radius:25px;
+            overflow:hidden;
+            border:1px solid #ffffff25;
+            background:#15101e;
+            box-shadow:0 25px 90px #0009;
         }
-
-        /* ویدیو */
 
         video {
-            display: block;
-            width: 100%;
-            max-height: 480px;
-            border-radius: 18px;
-            background: #201628;
+            display:block;
+            width:100%;
+            max-height:75vh;
         }
 
-        /* بخش متن رمزدار */
+        .secret-box { width:min(100%,700px); }
+        .secret-box p { line-height:2.3; }
 
-        .secret-section {
-            padding-bottom: 40px;
-        }
-
-        #password-area {
-            max-width: 470px;
-            margin: 0 auto;
-        }
-
-        .hint-button {
-            margin-top: 12px;
+        .secret-box .btn {
+            max-width:100%;
+            white-space:normal;
         }
 
         .hint-panel {
-            margin-top: 18px;
-            animation: appear .4s ease;
+            margin-top:25px;
+            animation:stepIn .5s both;
         }
 
         .hint-panel img {
-            display: block;
-            width: 100%;
-            max-width: 340px;
-            max-height: 330px;
-            object-fit: contain;
-            border-radius: 16px;
-            margin: 12px auto;
+            display:block;
+            max-width:100%;
+            max-height:370px;
+            margin:20px auto;
+            object-fit:contain;
+            border-radius:20px;
         }
 
-        .error-message {
-            color: #ff9fb9 !important;
-            font-weight: bold;
-        }
+        .error-message { color:#ff94b8; }
 
         .secret-text {
-            animation: appear .5s ease;
+            animation:stepIn 1s both;
+            font-size:clamp(24px,5vw,45px);
+            font-weight:900;
+            line-height:2;
+            color:#ffafd8;
         }
 
-        .secret-text p {
-            font-size: clamp(22px, 4vw, 31px);
-            color: #ffc2e5;
-            font-weight: 800;
-        }
-
-        /* کادوی اصلی */
+        .gift-section p { line-height:2.4; }
 
         .gift-content {
-            margin-top: 25px;
-            animation: appear .5s ease;
+            margin-top:25px;
+            animation:stepIn .8s both;
         }
 
         .gift-content img {
-            display: block;
-            width: 100%;
-            max-width: 450px;
-            max-height: 520px;
-            object-fit: contain;
-            border-radius: 18px;
-            margin: auto;
+            max-width:100%;
+            max-height:520px;
+            object-fit:contain;
+            border-radius:25px;
+            box-shadow:0 15px 65px #ff4da629;
         }
 
-        @keyframes appear {
+        /* PHOTO GALLERY */
+
+        .gallery-wrap {
+            width:min(100%,880px);
+            margin-top:30px;
+        }
+
+        .gallery-frame {
+            height:min(68vh,580px);
+            min-height:310px;
+            background:linear-gradient(135deg,#190f2b,#081626);
+            border-radius:28px;
+            overflow:hidden;
+            border:1px solid #ffffff30;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            touch-action:pan-y;
+            box-shadow:0 30px 90px #000a;
+        }
+
+        .gallery-frame img {
+            width:100%;
+            height:100%;
+            object-fit:contain;
+            user-select:none;
+        }
+
+        .gallery-frame img.switching {
+            animation:photoIn .55s both;
+        }
+
+        @keyframes photoIn {
             from {
-                opacity: 0;
-                transform: translateY(15px);
+                opacity:.1;
+                transform:scale(1.05);
             }
-
             to {
-                opacity: 1;
-                transform: translateY(0);
+                opacity:1;
+                transform:scale(1);
             }
         }
 
-        /* تنظیمات موبایل */
-
-        @media (max-width: 600px) {
-            .question-card {
-                padding: 30px 18px;
-            }
-
-            .panel {
-                padding: 20px 15px;
-            }
-
-            .more-content p {
-                font-size: 16px;
-            }
-
-            .hero {
-                padding-top: 55px;
-            }
-
-            .emoji-gift {
-                font-size: 75px;
-            }
+        .gallery-controls {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:24px;
+            direction:ltr;
+            margin:25px 0;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            body::before {
-                animation: none;
+        .arrow {
+            width:55px;
+            height:55px;
+            border-radius:50%;
+            background:#ffffff16;
+            border:1px solid #ffffff29;
+            color:white;
+            font-size:24px;
+        }
+
+        .arrow:hover { background:#ffffff30; }
+
+        .counter {
+            color:#beb3cb;
+            min-width:80px;
+        }
+
+        .dots {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:9px;
+            direction:ltr;
+        }
+
+        .dot {
+            padding:0;
+            background:#625a70;
+            width:8px;
+            height:8px;
+            border-radius:15px;
+            transition:.3s;
+        }
+
+        .dot.active {
+            width:28px;
+            background:var(--pink);
+        }
+
+        /* BACK TO TOP */
+
+        .back-top-area {
+            margin-top:55px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:15px;
+        }
+
+        .back-top {
+            border-radius:50px;
+            padding:16px 35px;
+            border:1px solid #ffffff35;
+            background:linear-gradient(120deg,#ffffff15,#ff4da622);
+            color:#fff;
+            font-weight:800;
+            transition:transform .3s,box-shadow .3s;
+        }
+
+        .back-top:hover {
+            transform:translateY(-6px);
+            box-shadow:0 15px 50px #ff4da640;
+        }
+
+        .back-top .up-arrow {
+            display:inline-block;
+            margin-right:10px;
+            transition:transform .3s;
+        }
+
+        .back-top:hover .up-arrow {
+            transform:translateY(-5px);
+        }
+
+        #scrollHint {
+            position:absolute;
+            bottom:30px;
+            font-size:12px;
+            color:#a69db2;
+            animation:float 3s infinite;
+        }
+
+        /* CINEMATIC LIGHT SWEEP */
+
+        #main-site h1,
+        #main-site h2,
+        #main-site .content p,
+        #main-site .hero-top,
+        #main-site .more-content p,
+        #main-site .secret-text p,
+        #main-site .gift-section p {
+            background-image:linear-gradient(
+                    110deg,
+                    #e7dce9 0%,
+                    #e7dce9 38%,
+                    #ffffff 46%,
+                    #ffb3df 49%,
+                    #ffffff 52%,
+                    #e7dce9 60%,
+                    #e7dce9 100%
+            );
+            background-size:300% 100%;
+            background-position:100% center;
+            background-clip:text;
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            animation:lightSweep 5s ease-in-out infinite;
+        }
+
+        #main-site .gradient,
+        #main-site .hero h1 {
+            background-image:linear-gradient(
+                    110deg,
+                    #ff85bf 0%,
+                    #b181ff 35%,
+                    #ffffff 48%,
+                    #ffb3df 51%,
+                    #8edcff 65%,
+                    #ff85bf 100%
+            );
+            background-size:300% 100%;
+        }
+
+        @keyframes lightSweep {
+            0%,12% { background-position:100% center; }
+            55%,100% { background-position:0% center; }
+        }
+
+        /* END CREDITS */
+
+        .credits-area {
+            text-align:center;
+            padding:35px 20px 100px;
+        }
+
+        .credits-open {
+            padding:16px 42px;
+            border-radius:50px;
+            border:1px solid #ffffff50;
+            background:linear-gradient(120deg,#c53485,#743ad5);
+            color:white;
+            font-weight:800;
+            letter-spacing:2px;
+            cursor:pointer;
+            box-shadow:0 10px 40px #ba39b750;
+            transition:transform .3s,box-shadow .3s;
+        }
+
+        .credits-open:hover {
+            transform:scale(1.07);
+            box-shadow:0 15px 60px #ba39b790;
+        }
+
+        .credits-overlay {
+            position:fixed;
+            inset:0;
+            z-index:9999;
+            display:none;
+            background:radial-gradient(ellipse at center,#210f32,#000 75%);
+            overflow:hidden;
+        }
+
+        .credits-overlay.playing { display:block; }
+
+        .credits-roll {
+            position:absolute;
+            width:100%;
+            left:0;
+            top:100%;
+            text-align:center;
+        }
+
+        .credits-overlay.playing .credits-roll {
+            animation:rollCredits 18s linear forwards;
+        }
+
+        .credits-item {
+            margin-bottom:110px;
+            padding:0 20px;
+        }
+
+        .credits-label {
+            color:#aaa0bb;
+            font-size:15px;
+            letter-spacing:4px;
+            direction:ltr;
+            margin-bottom:22px;
+        }
+
+        .credits-name {
+            font-size:clamp(28px,6vw,68px);
+            font-weight:900;
+            line-height:1.5;
+            direction:ltr;
+            background:linear-gradient(
+                    110deg,#e9c27c,#ffffff,#c48aff,#e9c27c
+            );
+            background-size:300% auto;
+            background-clip:text;
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            animation:creditShine 4s linear infinite;
+        }
+
+        @keyframes creditShine {
+            to { background-position:300% center; }
+        }
+
+        @keyframes rollCredits {
+            from { transform:translateY(0); }
+            to { transform:translateY(calc(-100% - 100vh)); }
+        }
+
+        .close-credits {
+            position:fixed;
+            top:25px;
+            right:25px;
+            z-index:10001;
+            background:#ffffff1c;
+            border:1px solid #ffffff50;
+            color:white;
+            border-radius:50px;
+            padding:12px 22px;
+            cursor:pointer;
+        }
+
+        .close-credits:hover { background:#ffffff35; }
+
+        /* MOBILE */
+
+        @media(max-width:600px) {
+            .site-section { padding:90px 20px 65px; }
+            .glass { padding:27px 18px; }
+            .hero h1 { letter-spacing:-2px; }
+            .gallery-frame { height:410px;min-height:0; }
+            .question-card { padding:12px; }
+            .step h1 { font-size:30px; }
+            .credits-label { font-size:12px; }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration:.01ms!important;
+                transition-duration:.01ms!important;
+                scroll-behavior:auto!important;
+            }
+
+            .reveal {
+                opacity:1;
+                transform:none;
+                filter:none;
+            }
+
+            #main-site h1,
+            #main-site h2,
+            #main-site .content p,
+            #main-site .hero-top,
+            #main-site .more-content p,
+            #main-site .secret-text p,
+            #main-site .gift-section p {
+                animation:none;
+                background-position:50% center;
+            }
+
+            .credits-overlay.playing .credits-roll {
+                animation:rollCredits 18s linear forwards!important;
             }
         }
     </style>
@@ -411,10 +840,19 @@
 
 <body>
 
-<!-- مرحله اول: وارد کردن سن -->
+<div id="progress"></div>
+<div id="confetti"></div>
 
+<!-- GALAXY TRANSITION -->
+<div id="galaxy-intro" aria-hidden="true">
+    <canvas id="galaxy-canvas"></canvas>
+    <div class="galaxy-core"></div>
+    <div class="galaxy-flash"></div>
+</div>
+
+<!-- AGE GATE -->
 <section id="intro" class="intro-screen">
-    <div class="question-card">
+    <div class="question-card glass">
 
         <div id="step-age" class="step">
             <h1>چند سالت شد؟</h1>
@@ -429,80 +867,61 @@
                         placeholder="سنت رو بنویس..."
                         required
                 >
-                <button type="submit">ادامه</button>
+                <button class="btn" type="submit">ادامه</button>
             </form>
         </div>
 
-        <!-- سؤال دروغ می‌گی با عکس اسب -->
-
         <div id="step-lie" class="step hidden">
             <h1>دروغ می‌گی؟</h1>
-
-            <img
-                    src="assets/photo2.gif?v=12"
-                    class="question-photo"
-                    alt="عکس اسب"
-            >
+            <img class="step-photo"
+                 src="assets/photo2.gif"
+                 alt="عکس سؤال">
 
             <div class="buttons">
-                <button id="lie-yes">آره</button>
-                <button id="lie-no" class="secondary">نه</button>
+                <button class="btn" id="lie-yes">آره</button>
+                <button class="btn secondary" id="lie-no">نه</button>
             </div>
         </div>
 
-        <!-- سن اشتباه: عکس سبز -->
-
         <div id="step-wrong" class="step hidden">
             <h1>بلد نیستی سن خودتم درست وارد کنی؟</h1>
+            <img class="step-photo"
+                 src="assets/photo1.gif"
+                 alt="عکس">
 
-            <img
-                    src="assets/photo1.gif?v=12"
-                    class="question-photo"
-                    alt="عکس سبز"
-            >
-
-            <button class="enter-site">
+            <button class="btn enter-site">
                 ورود به وب‌سایت
             </button>
         </div>
-
-        <!-- سن ۲۵ و جواب آره -->
 
         <div id="step-special" class="step hidden">
             <h1>۲۵ رو وارد کردی و می‌گی دروغ گفتی؟</h1>
+            <img class="step-photo"
+                 src="assets/photo3.jpeg"
+                 alt="عکس">
 
-            <img
-                    src="assets/photo3.jpeg?v=12"
-                    class="question-photo"
-                    alt="عکس ودکا"
-            >
-
-            <button class="enter-site">
+            <button class="btn enter-site">
                 ورود به وب‌سایت
             </button>
         </div>
-
-        <!-- سن ۲۵ و جواب نه -->
 
         <div id="step-correct" class="step hidden">
             <h1>آفرین، درست جواب دادی!</h1>
             <p>بیا اینم کادوی درست جواب دادن!</p>
 
             <button
-                    id="correct-gift-button"
                     class="emoji-gift"
-                    aria-label="باز کردن کادوی جواب درست">
+                    id="correct-gift-button"
+                    aria-label="باز کردن کادو">
                 🎁
             </button>
 
             <div id="gift-reveal" class="hidden">
-                <img
-                        src="assets/photo3.jpeg?v=12"
-                        class="question-photo"
-                        alt="عکس کادو"
-                >
+                <img class="step-photo"
+                     src="assets/photo3.jpeg"
+                     alt="کادو">
 
-                <button class="enter-site">
+                <button class="btn enter-site">
                     ورود به وب‌سایت
                 </button>
             </div>
@@ -511,19 +930,18 @@
     </div>
 </section>
 
+<!-- MAIN SITE -->
+<main id="main-site" class="hidden">
 
-<!-- صفحه اصلی سایت -->
-
-<main id="main-site" class="main-site hidden">
-
-    <header class="hero">
-        <p class="hero-top">
+    <!-- HERO -->
+    <section class="site-section hero" id="top">
+        <p class="hero-top reveal">
             تولدت مبارک، یه سال دیگه پیر شدی
         </p>
 
-        <h1>تولد مبارک؟</h1>
+        <h1 class="reveal">تولدت مبارک؟</h1>
 
-        <details class="see-more">
+        <details class="see-more reveal">
             <summary>See more</summary>
 
             <div class="more-content">
@@ -541,336 +959,559 @@
                 </p>
             </div>
         </details>
-    </header>
 
-
-    <!-- متن طنز تولد -->
-
-    <section class="panel letter">
-        <h2>یه پیام مخصوص مهتا</h2>
-
-        <p>
-            امروز یه روز بسیار مهمه؛
-            روزی که خیلی وقته منتظرش بودم
-            و خیلی خوشحالم که بالاخره
-            این روز رسیده و می‌تونم
-            توی این روز مهم اینجا باشم.
-        </p>
-
-        <p>
-            بله، درسته!
-            امروز همون روزیه که GTA 6
-            بعد از سال‌های سال انتظار
-            بالاخره منتشر شده!
-        </p>
-
-        <p>
-            آها، راستی...
-            تولد مهتا هم هست!
-        </p>
+        <div id="scrollHint">SCROLL ↓</div>
     </section>
 
+    <!-- MESSAGE -->
+    <section class="site-section">
+        <div class="content">
 
-    <!-- ویدیو -->
+            <h2 class="section-title gradient reveal">
+                یه پیام مخصوص مهتا
+            </h2>
 
-    <section class="panel">
-        <h2>منو بمالید</h2>
-
-        <video
-                controls
-                playsinline
-                preload="metadata"
-                src="assets/birthday.mp4?v=12">
-            مرورگر شما از ویدیو پشتیبانی نمی‌کند.
-        </video>
-    </section>
-
-
-    <!-- بخش متن اصلی رمزدار -->
-
-    <section
-            class="panel secret-section"
-            id="secret-section">
-
-        <h2>متن اصلی تولد</h2>
-
-        <div id="password-area">
-
-            <p>
-                برای دیدن متن اصلی باید رمز رو وارد کنی.
+            <p class="reveal">
+                امروز یه روز بسیار مهمه؛
+                روزی که خیلی وقته منتظرش بودم
+                و خیلی خوشحالم که بالاخره
+                این روز رسیده و می‌تونم
+                توی این روز مهم اینجا باشم.
             </p>
 
-            <form id="password-form">
+            <p class="reveal">
+                بله، درسته!
+                امروز همون روزیه که GTA 6
+                بعد از سال‌های سال انتظار
+                بالاخره منتشر شده!
+            </p>
 
-                <input
-                        id="password-input"
-                        type="password"
-                        placeholder="رمز رو وارد کن..."
-                        autocomplete="off"
-                        required
-                >
+            <p class="reveal">
+                آها، راستی...
+                تولد مهتا هم هست!
+            </p>
 
-                <button type="submit">
-                    باز کردن متن اصلی وارد کردن کلمه کافیه انگلیسی یا فارسی
-                    ((مگه ... ؟))
+        </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="site-section">
+        <h2 class="section-title gradient reveal">
+            منو بمالید
+        </h2>
+
+        <div class="video-frame reveal">
+            <video
+                    controls
+                    playsinline
+                    preload="metadata"
+                    src="assets/birthday.mp4">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+            </video>
+        </div>
+    </section>
+
+    <!-- SECRET MESSAGE -->
+    <section class="site-section" id="secret-section">
+
+        <h2 class="section-title gradient reveal">
+            متن اصلی تولد
+        </h2>
+
+        <div class="glass secret-box reveal">
+
+            <div id="password-area">
+                <p>برای دیدن متن اصلی باید رمز رو وارد کنی.</p>
+
+                <form id="password-form">
+                    <input
+                            id="password-input"
+                            type="password"
+                            placeholder="رمز رو وارد کن..."
+                            autocomplete="off"
+                            required
+                    >
+
+                    <button class="btn" type="submit">
+                        show
+                    </button>
+                </form>
+
+                <button
+                        class="btn secondary"
+                        id="hint-button"
+                        type="button"
+                        style="margin-top:16px"
+                        aria-expanded="false">
+                    راهنمایی رمز
                 </button>
 
-            </form>
+                <div id="hint-panel" class="hint-panel hidden">
+                    <p>
+                        راهنمایی توی این عکسه.باز کردن متن اصلی وارد کردن کلمه کافیه انگلیسی یا فارسی((مگه ... ؟):
+                    </p>
 
-            <!-- دکمه راهنمایی رمز -->
+                    <img
+                            id="hint-image"
+                            alt="عکس راهنمای رمز"
+                    >
 
-            <button
-                    id="hint-button"
-                    type="button"
-                    class="secondary hint-button"
-                    aria-expanded="false">
-                راهنمایی رمز
-            </button>
+                    <p id="hint-error" class="error-message hidden">
+                        عکس photo4 رو داخل پوشه assets قرار بده.
+                    </p>
+                </div>
 
-            <!-- عکس راهنمایی -->
-
-            <div id="hint-panel" class="hint-panel hidden">
-
-                <p>راهنمایی توی این عکسه:</p>
-
-                <img
-                        id="hint-image"
-                        alt="عکس راهنمای رمز"
-                >
-
-                <p
-                        id="hint-error"
-                        class="error-message hidden">
-                    عکس photo4 رو داخل پوشه assets قرار بده.
+                <p id="password-error" class="error-message hidden">
+                    رمز اشتباهه؛ دوباره امتحان کن.
                 </p>
-
             </div>
 
-            <!-- پیام رمز اشتباه -->
+            <div id="secret-text" class="secret-text hidden">
+                <p>تولدت مبارک باشه، ایشالا ۱۲۰ ساله باشی.
 
-            <p
-                    id="password-error"
-                    class="error-message hidden"
-                    role="alert">
-                رمز اشتباهه؛ دوباره امتحان کن.
-            </p>
+                    خیلی خوشحالم که تونستیم کلی خاطرات باحال با هم بسازیم و لحظه‌های خوبی داشته باشیم. امیدوارم همیشه خوشحال باشی و روز تولدت مثل همیشه یُبس نباشی.
 
-        </div>
+                    تولدت مبارک، تا تولدی دیگر بدرود.
 
-        <!-- متن اصلی که با رمز باز می‌شود -->
+                    **پی‌نوشت:** عکس‌ها رو دیدی؟ تو همشون غذا می‌خوری! گفتم خاطرات فان رو بذارم. تو اونایی هم که داشتی غذا نمی‌خوردی، داشتی گوه می‌خوردی.
 
-        <div
-                id="secret-text"
-                class="secret-text hidden"
-                aria-live="polite">
-
-            <p>
-                تولدت مبارک، ایشالا ۱۲۰ ساله باشی.
-            </p>
+                    با تشکر.</p>
+            </div>
 
         </div>
-
     </section>
 
+    <!-- MAIN GIFT -->
+    <section class="site-section gift-section">
 
-    <!-- کادوی اصلی زنجبیل -->
+        <h2 class="section-title gradient reveal">
+            خب، قسمت مورد علاقه خودم!
+        </h2>
 
-    <section class="panel gift-section">
-
-        <h2>خب، قسمت مورد علاقه خودم!</h2>
-
-        <p>
+        <p class="reveal">
             برای این جدا هیجان دارم؛
             کادوی دیجیتالی گرفتم برات.
         </p>
 
         <button
                 id="gift-button"
-                class="emoji-gift"
+                class="emoji-gift reveal"
                 aria-label="باز کردن کادو"
                 aria-expanded="false">
             🎁
         </button>
 
         <div id="gift-content" class="gift-content hidden">
-
             <img
-                    src="assets/ginger.jpg?v=12"
+                    src="assets/ginger.jpg"
                     alt="عکس هدیه"
             >
-
         </div>
 
     </section>
 
+    <!-- PHOTO GALLERY -->
+    <section class="site-section" id="gallery-section">
+
+        <div class="gallery-wrap reveal">
+
+            <div class="gallery-frame" id="gallery-frame">
+                <img
+                        id="gallery-image"
+                        src="assets/1.jpeg"
+                        alt="عکس شماره یک"
+                >
+            </div>
+
+            <div class="gallery-controls">
+                <button class="arrow" id="previous"
+                        aria-label="عکس قبلی">❮</button>
+
+                <span class="counter" id="counter">01 / 06</span>
+
+                <button class="arrow" id="next"
+                        aria-label="عکس بعدی">❯</button>
+            </div>
+
+            <div class="dots" id="dots"></div>
+
+        </div>
+
+        <!-- BACK TO TOP -->
+        <div class="back-top-area reveal">
+            <button class="back-top" id="back-to-top">
+                برگشت به بالا
+                <span class="up-arrow">↑</span>
+            </button>
+        </div>
+
+    </section>
+
+    <!-- CREDITS BUTTON -->
+    <div class="credits-area" id="credits-area">
+        <button
+                class="credits-open"
+                id="show-credits"
+                type="button">
+            SHOW CREDITS ✦
+        </button>
+    </div>
+
 </main>
 
+<!-- CREDITS OVERLAY -->
+<div
+        class="credits-overlay"
+        id="credits-overlay"
+        role="dialog"
+        aria-modal="true"
+        aria-label="End credits"
+>
+
+    <button
+            class="close-credits"
+            id="close-credits"
+            type="button">
+        ✕ Close
+    </button>
+
+    <div class="credits-roll" id="credits-roll">
+
+        <div class="credits-item">
+            <div class="credits-label">DESIGNED BY</div>
+            <div class="credits-name">zanjebil &amp; ney</div>
+        </div>
+
+        <div class="credits-item">
+            <div class="credits-label">SPONSORED BY</div>
+            <div class="credits-name">Swarovski Vibrator</div>
+        </div>
+
+        <div class="credits-item">
+            <div class="credits-label">SPECIAL THANKS TO</div>
+            <div class="credits-name">Aylee &amp; Pooyan</div>
+        </div>
+
+        <div class="credits-item">
+            <div class="credits-name">THE END.</div>
+        </div>
+
+    </div>
+</div>
 
 <script>
-
-    // ذخیره سن واردشده
+    const $ = id => document.getElementById(id);
 
     let enteredAge = null;
+    let entered = false;
+    let entering = false;
 
-
-    // نمایش مراحل سؤال
+    /* AGE GATE */
 
     function showStep(id) {
-
-        document.querySelectorAll('.step').forEach(step => {
-            step.classList.add('hidden');
+        document.querySelectorAll('.step').forEach(el => {
+            el.classList.add('hidden');
         });
 
-        document.getElementById(id)
-            .classList.remove('hidden');
-
+        $(id).classList.remove('hidden');
     }
 
+    $('age-form').addEventListener('submit', e => {
+        e.preventDefault();
 
-    // بعد از وارد کردن سن
+        const raw = $('age-input').value;
+        const age = Number(raw);
 
-    document.getElementById('age-form')
-        .addEventListener('submit', function(event) {
+        if (
+            raw.trim() === '' ||
+            !Number.isInteger(age) ||
+            age < 0 ||
+            age > 120
+        ) {
+            return;
+        }
 
-            event.preventDefault();
+        enteredAge = age;
+        showStep('step-lie');
+    });
 
-            enteredAge = Number(
-                document.getElementById('age-input').value
+    $('lie-yes').addEventListener('click', () => {
+        showStep(
+            enteredAge === 25
+                ? 'step-special'
+                : 'step-wrong'
+        );
+    });
+
+    $('lie-no').addEventListener('click', () => {
+        showStep(
+            enteredAge === 25
+                ? 'step-correct'
+                : 'step-wrong'
+        );
+    });
+
+    $('correct-gift-button').addEventListener('click', () => {
+        $('correct-gift-button').classList.add('hidden');
+        $('gift-reveal').classList.remove('hidden');
+    });
+
+    /* GALAXY WARP */
+
+    const galaxy = $('galaxy-intro');
+    const canvas = $('galaxy-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let stars = [];
+    let warpRunning = false;
+    let warpFrame = 0;
+    let warpWidth = 0;
+    let warpHeight = 0;
+    let warpStart = 0;
+
+    function resizeGalaxy() {
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+
+        warpWidth = innerWidth;
+        warpHeight = innerHeight;
+
+        canvas.width = Math.floor(warpWidth * dpr);
+        canvas.height = Math.floor(warpHeight * dpr);
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function createStar() {
+        return {
+            x:(Math.random() - .5) * warpWidth * 2,
+            y:(Math.random() - .5) * warpHeight * 2,
+            z:Math.random() * 1600 + 20,
+            color:Math.random()
+        };
+    }
+
+    function resetStar(s) {
+        s.x = (Math.random() - .5) * warpWidth * 2;
+        s.y = (Math.random() - .5) * warpHeight * 2;
+        s.z = 1600;
+        s.color = Math.random();
+    }
+
+    function drawGalaxy(now) {
+        if (!warpRunning) return;
+
+        const elapsed = now - warpStart;
+        const progress = Math.min(elapsed / 3700, 1);
+        const speed = 5 + Math.pow(progress, 2) * 65;
+
+        ctx.fillStyle = '#010107';
+        ctx.fillRect(0, 0, warpWidth, warpHeight);
+
+        const cx = warpWidth / 2;
+        const cy = warpHeight / 2;
+        const focal = Math.min(warpWidth, warpHeight) * .95;
+
+        const halo = ctx.createRadialGradient(
+            cx, cy, 0,
+            cx, cy, Math.max(warpWidth, warpHeight) * .6
+        );
+
+        halo.addColorStop(0, 'rgba(83,63,170,.16)');
+        halo.addColorStop(.35, 'rgba(38,30,90,.06)');
+        halo.addColorStop(1, 'rgba(0,0,0,0)');
+
+        ctx.fillStyle = halo;
+        ctx.fillRect(0, 0, warpWidth, warpHeight);
+
+        for (const s of stars) {
+            const oldZ = s.z;
+            s.z -= speed;
+
+            if (s.z <= 5) {
+                resetStar(s);
+                continue;
+            }
+
+            const x = cx + (s.x / s.z) * focal;
+            const y = cy + (s.y / s.z) * focal;
+            const oldX = cx + (s.x / oldZ) * focal;
+            const oldY = cy + (s.y / oldZ) * focal;
+
+            if (
+                x < 0 ||
+                x > warpWidth ||
+                y < 0 ||
+                y > warpHeight
+            ) {
+                resetStar(s);
+                continue;
+            }
+
+            const alpha = Math.min(
+                1,
+                (1600 - s.z) / 750 + .15
             );
 
-            showStep('step-lie');
+            const shade = s.color < .2
+                ? `rgba(255,133,211,${alpha})`
+                : s.color < .5
+                    ? `rgba(120,180,255,${alpha})`
+                    : `rgba(255,255,255,${alpha})`;
 
+            ctx.beginPath();
+            ctx.strokeStyle = shade;
+
+            ctx.lineWidth = Math.max(
+                .7,
+                Math.min(3, 2.5 * (1 - s.z / 1600))
+            );
+
+            ctx.moveTo(oldX, oldY);
+            ctx.lineTo(
+                x + (x - oldX) * 1.7,
+                y + (y - oldY) * 1.7
+            );
+            ctx.stroke();
+        }
+
+        if (progress < 1) {
+            warpFrame = requestAnimationFrame(drawGalaxy);
+        }
+    }
+
+    function enterMain() {
+        if (entered || entering || enteredAge === null) return;
+
+        entering = true;
+
+        if (
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+            !ctx
+        ) {
+            finishEntry();
+            return;
+        }
+
+        resizeGalaxy();
+
+        stars = Array.from(
+            {
+                length:Math.min(
+                    650,
+                    Math.max(300, Math.round(innerWidth * .6))
+                )
+            },
+            createStar
+        );
+
+        galaxy.classList.remove('fade-out');
+        galaxy.classList.add('active');
+        galaxy.setAttribute('aria-hidden', 'false');
+
+        warpRunning = true;
+        warpStart = performance.now();
+
+        warpFrame = requestAnimationFrame(drawGalaxy);
+
+        setTimeout(() => {
+            finishEntry();
+            galaxy.classList.add('fade-out');
+
+            setTimeout(() => {
+                warpRunning = false;
+                cancelAnimationFrame(warpFrame);
+
+                galaxy.classList.remove('active', 'fade-out');
+                galaxy.setAttribute('aria-hidden', 'true');
+
+                ctx.clearRect(0, 0, warpWidth, warpHeight);
+            }, 950);
+
+        }, 3600);
+    }
+
+    function finishEntry() {
+        if (entered) return;
+
+        entered = true;
+        entering = false;
+
+        $('intro').classList.add('hidden');
+        $('main-site').classList.remove('hidden');
+
+        window.scrollTo(0, 0);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
         });
 
-
-    // اگر جواب آره باشد
-
-    document.getElementById('lie-yes')
-        .addEventListener('click', function() {
-
-            if (enteredAge === 25) {
-                showStep('step-special');
-            } else {
-                showStep('step-wrong');
-            }
-
-        });
-
-
-    // اگر جواب نه باشد
-
-    document.getElementById('lie-no')
-        .addEventListener('click', function() {
-
-            if (enteredAge === 25) {
-                showStep('step-correct');
-            } else {
-                showStep('step-wrong');
-            }
-
-        });
-
-
-    // باز کردن کادوی جواب درست
-
-    document.getElementById('correct-gift-button')
-        .addEventListener('click', function() {
-
-            this.classList.add('hidden');
-
-            document.getElementById('gift-reveal')
-                .classList.remove('hidden');
-
-        });
-
-
-    // ورود به صفحه اصلی
-
-    document.querySelectorAll('.enter-site')
-        .forEach(function(button) {
-
-            button.addEventListener('click', function() {
-
-                document.getElementById('intro')
-                    .classList.add('hidden');
-
-                document.getElementById('main-site')
-                    .classList.remove('hidden');
-
-                window.scrollTo(0, 0);
-
+        requestAnimationFrame(() => {
+            document.querySelectorAll('.hero .reveal').forEach(el => {
+                el.classList.add('visible');
             });
-
         });
+    }
 
+    document.querySelectorAll('.enter-site').forEach(button => {
+        button.addEventListener('click', enterMain);
+    });
 
-    // باز کردن کادوی زنجبیل
+    /* SCROLL REVEAL */
 
-    document.getElementById('gift-button')
-        .addEventListener('click', function() {
-
-            const gift = document.getElementById('gift-content');
-
-            gift.classList.toggle('hidden');
-
-            this.setAttribute(
-                'aria-expanded',
-                String(!gift.classList.contains('hidden'))
-            );
-
-        });
-
-
-    // بررسی رمز متن اصلی
-    // وجود yoga یا یوگا در رمز کافی است
-
-    document.getElementById('password-form')
-        .addEventListener('submit', function(event) {
-
-            event.preventDefault();
-
-            const password = document
-                .getElementById('password-input')
-                .value
-                .normalize('NFKC')
-                .toLowerCase();
-
-            const valid =
-                password.includes('yoga') ||
-                password.includes('یوگا');
-
-            if (valid) {
-
-                document.getElementById('password-area')
-                    .classList.add('hidden');
-
-                document.getElementById('secret-text')
-                    .classList.remove('hidden');
-
-            } else {
-
-                document.getElementById('password-error')
-                    .classList.remove('hidden');
-
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
+        });
+    }, {
+        threshold:.12
+    });
 
+    let scrollScheduled = false;
+
+    window.addEventListener('scroll', () => {
+        if (scrollScheduled) return;
+
+        scrollScheduled = true;
+
+        requestAnimationFrame(() => {
+            const total =
+                document.documentElement.scrollHeight - innerHeight;
+
+            $('progress').style.width =
+                (total > 0 ? scrollY / total * 100 : 0) + '%';
+
+            scrollScheduled = false;
         });
 
+    }, { passive:true });
 
-    // عکس راهنمایی رمز
-    // پشتیبانی از پسوندهای مختلف photo4
+    /* PASSWORD */
 
-    const hintButton =
-        document.getElementById('hint-button');
+    $('password-form').addEventListener('submit', e => {
+        e.preventDefault();
 
-    const hintPanel =
-        document.getElementById('hint-panel');
+        const value = $('password-input').value
+            .normalize('NFKC')
+            .toLowerCase()
+            .replace(/ي/g, 'ی')
+            .replace(/ك/g, 'ک');
 
-    const hintImage =
-        document.getElementById('hint-image');
+        if (
+            value.includes('yoga') ||
+            value.includes('یوگا')
+        ) {
+            $('password-area').classList.add('hidden');
+            $('secret-text').classList.remove('hidden');
+            confetti();
+        } else {
+            $('password-error').classList.remove('hidden');
+        }
+    });
 
-    const hintError =
-        document.getElementById('hint-error');
+    /* PASSWORD HINT */
 
     const hintFiles = [
         'photo4.jpg',
@@ -880,55 +1521,226 @@
         'photo4.webp'
     ];
 
-    let hintFileIndex = 0;
+    let hintIndex = 0;
 
+    $('hint-image').addEventListener('error', () => {
+        hintIndex++;
 
-    // اگر پسوند اول پیدا نشد، بعدی را امتحان کن
-
-    hintImage.addEventListener('error', function() {
-
-        hintFileIndex++;
-
-        if (hintFileIndex < hintFiles.length) {
-
-            hintImage.src =
-                'assets/' + hintFiles[hintFileIndex] + '?v=12';
-
+        if (hintIndex < hintFiles.length) {
+            $('hint-image').src =
+                'assets/' + hintFiles[hintIndex];
         } else {
-
-            hintImage.classList.add('hidden');
-
-            hintError.classList.remove('hidden');
-
+            $('hint-image').classList.add('hidden');
+            $('hint-error').classList.remove('hidden');
         }
-
     });
 
+    $('hint-button').addEventListener('click', () => {
+        $('hint-panel').classList.toggle('hidden');
 
-    // باز و بسته کردن راهنمایی رمز
+        const open =
+            !$('hint-panel').classList.contains('hidden');
 
-    hintButton.addEventListener('click', function() {
-
-        hintPanel.classList.toggle('hidden');
-
-        const isOpen =
-            !hintPanel.classList.contains('hidden');
-
-        hintButton.setAttribute(
+        $('hint-button').setAttribute(
             'aria-expanded',
-            String(isOpen)
+            String(open)
         );
 
-        if (isOpen && !hintImage.getAttribute('src')) {
+        if (
+            open &&
+            !$('hint-image').getAttribute('src')
+        ) {
+            $('hint-image').src =
+                'assets/' + hintFiles[0];
+        }
+    });
 
-            hintImage.src =
-                'assets/' + hintFiles[0] + '?v=12';
+    /* GIFT */
 
+    $('gift-button').addEventListener('click', () => {
+        $('gift-content').classList.toggle('hidden');
+
+        const open =
+            !$('gift-content').classList.contains('hidden');
+
+        $('gift-button').setAttribute(
+            'aria-expanded',
+            String(open)
+        );
+
+        if (open) confetti();
+    });
+
+    /* CONFETTI */
+
+    function confetti() {
+        const colors = [
+            '#ff4da6',
+            '#a15cff',
+            '#61cfff',
+            '#ffd166',
+            '#ffffff'
+        ];
+
+        for (let i = 0; i < 100; i++) {
+            const piece = document.createElement('span');
+
+            piece.className = 'piece';
+            piece.style.left = Math.random() * 100 + '%';
+
+            piece.style.background =
+                colors[Math.floor(Math.random() * colors.length)];
+
+            piece.style.animationDelay =
+                Math.random() + 's';
+
+            piece.style.animationDuration =
+                (2.5 + Math.random() * 2) + 's';
+
+            $('confetti').appendChild(piece);
+
+            setTimeout(() => piece.remove(), 5500);
+        }
+    }
+
+    /* INFINITE JPEG PHOTO GALLERY */
+
+    const photos = Array.from(
+        { length:6 },
+        (_, i) => `assets/${i + 1}.jpeg`
+    );
+
+    let photoIndex = 0;
+    let touchStart = 0;
+
+    photos.forEach((_, i) => {
+        const dot = document.createElement('button');
+
+        dot.className = 'dot';
+        dot.setAttribute('aria-label', `عکس ${i + 1}`);
+
+        dot.addEventListener('click', () => {
+            photoIndex = i;
+            renderPhoto();
+        });
+
+        $('dots').appendChild(dot);
+    });
+
+    function renderPhoto() {
+        const img = $('gallery-image');
+
+        img.classList.remove('switching');
+        void img.offsetWidth;
+
+        img.src = photos[photoIndex];
+        img.alt = `عکس شماره ${photoIndex + 1}`;
+        img.classList.add('switching');
+
+        $('counter').textContent =
+            String(photoIndex + 1).padStart(2, '0') +
+            ' / 06';
+
+        document.querySelectorAll('.dot').forEach((dot, i) => {
+            dot.classList.toggle(
+                'active',
+                i === photoIndex
+            );
+        });
+    }
+
+    function changePhoto(n) {
+        photoIndex =
+            (photoIndex + n + photos.length) % photos.length;
+
+        renderPhoto();
+    }
+
+    $('previous').addEventListener('click', () => {
+        changePhoto(-1);
+    });
+
+    $('next').addEventListener('click', () => {
+        changePhoto(1);
+    });
+
+    $('gallery-frame').addEventListener('touchstart', e => {
+        touchStart = e.changedTouches[0].screenX;
+    }, { passive:true });
+
+    $('gallery-frame').addEventListener('touchend', e => {
+        const delta =
+            e.changedTouches[0].screenX - touchStart;
+
+        if (Math.abs(delta) > 45) {
+            changePhoto(delta < 0 ? 1 : -1);
+        }
+    }, { passive:true });
+
+    renderPhoto();
+
+    /* BACK TO TOP */
+
+    $('back-to-top').addEventListener('click', () => {
+        if (!entered) return;
+
+        $('top').scrollIntoView({
+            behavior:
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                    ? 'instant'
+                    : 'smooth',
+            block:'start'
+        });
+    });
+
+    /* CREDITS */
+
+    const creditsOverlay = $('credits-overlay');
+    const creditsRoll = $('credits-roll');
+    let lastCreditsTrigger = null;
+
+    function showCredits() {
+        if (!entered) return;
+
+        lastCreditsTrigger = document.activeElement;
+
+        creditsOverlay.classList.remove('playing');
+
+        void creditsRoll.offsetWidth;
+
+        creditsOverlay.classList.add('playing');
+
+        document.body.style.overflow = 'hidden';
+
+        $('close-credits').focus();
+    }
+
+    function closeCredits() {
+        if (!creditsOverlay.classList.contains('playing')) {
+            return;
         }
 
+        creditsOverlay.classList.remove('playing');
+
+        document.body.style.overflow = '';
+
+        if (lastCreditsTrigger) {
+            lastCreditsTrigger.focus();
+        }
+    }
+
+    $('show-credits').addEventListener('click', showCredits);
+    $('close-credits').addEventListener('click', closeCredits);
+
+    document.addEventListener('keydown', e => {
+        if (
+            e.key === 'Escape' &&
+            creditsOverlay.classList.contains('playing')
+        ) {
+            closeCredits();
+        }
     });
 
 </script>
-
 </body>
 </html>
